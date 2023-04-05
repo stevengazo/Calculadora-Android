@@ -18,6 +18,7 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
 
     int tempNumber ;
+    float Result;
     List<Integer> listNumbers=new ArrayList<Integer>();
     TextView txtViewHistory;
     EditText txtEditValues;
@@ -159,6 +160,7 @@ private void Listeners(){
             tempNumber = 0;
             txtEditValues.setText(String.valueOf(0));
             txtViewHistory.setText(String.valueOf(0));
+            listNumbers.clear();
         }
     });
     btnErase.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +181,46 @@ private void Listeners(){
             }
         }
     });
+    btnSum.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            try{
+                SetOperation("+");
+            }catch (Exception ErrorM){
+                Toast.makeText(MainActivity.this, "Error: " + ErrorM.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    });
+    btnRes.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            try{
+                SetOperation("-");
+            }catch (Exception ErrorM){
+                Toast.makeText(MainActivity.this, "Error: " + ErrorM.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    });
+    btnMult.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            try{
+                SetOperation("*");
+            }catch (Exception ErrorM){
+                Toast.makeText(MainActivity.this, "Error: " + ErrorM.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    });
+    btnDiv.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            try{
+                SetOperation("/");
+            }catch (Exception f){
+                Toast.makeText(MainActivity.this, "Error: " + f.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    });
 }
 
     private void SetValue(int number){
@@ -186,6 +228,60 @@ private void Listeners(){
         //Toast.makeText(MainActivity.this, "Valor: " + valueTmp, Toast.LENGTH_LONG).show();
         tempNumber = Integer.parseInt(valueTmp.toString());
         txtEditValues.setText( String.valueOf(tempNumber));
+    }
+
+    private void SetOperation(String sign){
+        try{
+            if(tempNumber!=0){
+                listNumbers.add(tempNumber);
+                String text = "";
+                switch(sign) {
+                    case "+":
+                        for ( int i=0; i< listNumbers.size(); i++){
+                            if(i== 0){
+                                text =  listNumbers.get(i).toString();
+                            }else{
+                                text = text + sign + listNumbers.get(i).toString();
+                            }
+                        }
+                        break;
+                    case "-":
+                        for ( int i=0; i< listNumbers.size(); i++){
+                            if(i== 0){
+                                text =  listNumbers.get(i).toString();
+                            }else{
+                                text = text + sign + listNumbers.get(i).toString();
+                            }
+                        }
+                        break;
+                    case "/":
+                        for ( int i=0; i< listNumbers.size(); i++){
+                            if(i== 0){
+                                text =  listNumbers.get(i).toString();
+                            }else{
+                                text = text + sign + listNumbers.get(i).toString();
+                            }
+                        }
+                        break;
+                    case "*":
+                        for ( int i=0; i< listNumbers.size(); i++){
+                            if(i== 0){
+                                text =  listNumbers.get(i).toString();
+                            }else{
+                                text = text + sign + listNumbers.get(i).toString();
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                txtViewHistory.setText(text);
+                txtEditValues.setText("");
+                tempNumber = 0;
+            }
+        }catch (Exception jl){
+            Toast.makeText(MainActivity.this, "Error: "+ jl.getMessage() , Toast.LENGTH_LONG).show();
+        }
     }
 
     private void BindingComponents(){

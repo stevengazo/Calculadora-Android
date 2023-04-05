@@ -231,7 +231,7 @@
         android:layout_height="54dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="12dp"
-        android:text="TextView"
+        android:text=""
         android:textAlignment="textEnd"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/editTextNumberDecimal"
