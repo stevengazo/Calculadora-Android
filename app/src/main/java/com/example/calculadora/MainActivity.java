@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     int tempNumber ;
     float Result;
     List<Integer> listNumbers=new ArrayList<Integer>();
+    List<String> listOperations=new ArrayList<String>();
     TextView txtViewHistory;
     EditText txtEditValues;
     Button btn0;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-private void Listeners(){
+    private void Listeners(){
     btn0.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -222,10 +223,8 @@ private void Listeners(){
         }
     });
 }
-
     private void SetValue(int number){
         String valueTmp = String.valueOf(tempNumber) + number ;
-        //Toast.makeText(MainActivity.this, "Valor: " + valueTmp, Toast.LENGTH_LONG).show();
         tempNumber = Integer.parseInt(valueTmp.toString());
         txtEditValues.setText( String.valueOf(tempNumber));
     }
@@ -234,50 +233,20 @@ private void Listeners(){
         try{
             if(tempNumber!=0){
                 listNumbers.add(tempNumber);
+                listOperations.add(sign);
                 String text = "";
-                switch(sign) {
-                    case "+":
-                        for ( int i=0; i< listNumbers.size(); i++){
-                            if(i== 0){
-                                text =  listNumbers.get(i).toString();
-                            }else{
-                                text = text + sign + listNumbers.get(i).toString();
-                            }
-                        }
-                        break;
-                    case "-":
-                        for ( int i=0; i< listNumbers.size(); i++){
-                            if(i== 0){
-                                text =  listNumbers.get(i).toString();
-                            }else{
-                                text = text + sign + listNumbers.get(i).toString();
-                            }
-                        }
-                        break;
-                    case "/":
-                        for ( int i=0; i< listNumbers.size(); i++){
-                            if(i== 0){
-                                text =  listNumbers.get(i).toString();
-                            }else{
-                                text = text + sign + listNumbers.get(i).toString();
-                            }
-                        }
-                        break;
-                    case "*":
-                        for ( int i=0; i< listNumbers.size(); i++){
-                            if(i== 0){
-                                text =  listNumbers.get(i).toString();
-                            }else{
-                                text = text + sign + listNumbers.get(i).toString();
-                            }
-                        }
-                        break;
-                    default:
-                        break;
+                for ( int i=0; i< listNumbers.size(); i++){
+                    if(i== 0){
+                        text =  listNumbers.get(i).toString();
+                    }else{
+                        text = txtViewHistory.getText() + sign + listNumbers.get(i).toString();
+                    }
                 }
                 txtViewHistory.setText(text);
                 txtEditValues.setText("");
                 tempNumber = 0;
+            }else{
+                Toast.makeText(MainActivity.this, "El valor no puede ser 0" , Toast.LENGTH_LONG).show();
             }
         }catch (Exception jl){
             Toast.makeText(MainActivity.this, "Error: "+ jl.getMessage() , Toast.LENGTH_LONG).show();
