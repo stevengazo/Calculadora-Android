@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     int tempNumber ;
     float Result;
-    List<Integer> listNumbers=new ArrayList<Integer>();
+    List<Float> listNumbers=new ArrayList<Float>();
     List<String> listOperations=new ArrayList<String>();
     TextView txtViewHistory;
     EditText txtEditValues;
@@ -41,218 +42,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnDiv;
     Button btnMult;
 
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        tempNumber = 0;
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        BindingComponents();
-        Listeners();
-
-    }
-
-    private void Listeners(){
-    btn0.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(0);
-            }catch ( Exception f){
-                Toast.makeText(MainActivity.this, f.getMessage().toString(), Toast.LENGTH_LONG).show();
-            }
-
-        }
-    });
-    btn1.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(1);
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btn2.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(2);
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btn3.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(3);
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btn4.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(4);
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btn5.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(5);
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btn6.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(6);
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btn7.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(7);
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btn8.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(8);
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btn9.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetValue(9);
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btnDelete.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            tempNumber = 0;
-            txtEditValues.setText(String.valueOf(0));
-            txtViewHistory.setText(String.valueOf(0));
-            listNumbers.clear();
-        }
-    });
-    btnErase.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                String value = String.valueOf(tempNumber);
-                if(value.length()!=0){
-                    value = value.substring(0,value.length()-1);
-                }else{
-                    value= String.valueOf(0);
-                }
-                tempNumber = Integer.parseInt(value.toString());
-                txtEditValues.setText( String.valueOf(tempNumber));
-            }catch (Exception f){
-                tempNumber = 0;
-                txtEditValues.setText( String.valueOf(0));
-            }
-        }
-    });
-    btnSum.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetOperation("+");
-            }catch (Exception ErrorM){
-                Toast.makeText(MainActivity.this, "Error: " + ErrorM.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btnRes.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetOperation("-");
-            }catch (Exception ErrorM){
-                Toast.makeText(MainActivity.this, "Error: " + ErrorM.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btnMult.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetOperation("*");
-            }catch (Exception ErrorM){
-                Toast.makeText(MainActivity.this, "Error: " + ErrorM.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-    btnDiv.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try{
-                SetOperation("/");
-            }catch (Exception f){
-                Toast.makeText(MainActivity.this, "Error: " + f.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-    });
-}
-    private void SetValue(int number){
-        String valueTmp = String.valueOf(tempNumber) + number ;
-        tempNumber = Integer.parseInt(valueTmp.toString());
-        txtEditValues.setText( String.valueOf(tempNumber));
-    }
-
-    private void SetOperation(String sign){
-        try{
-            if(tempNumber!=0){
-                listNumbers.add(tempNumber);
-                listOperations.add(sign);
-                String text = "";
-                for ( int i=0; i< listNumbers.size(); i++){
-                    if(i== 0){
-                        text =  listNumbers.get(i).toString();
-                    }else{
-                        text = txtViewHistory.getText() + sign + listNumbers.get(i).toString();
-                    }
-                }
-                txtViewHistory.setText(text);
-                txtEditValues.setText("");
-                tempNumber = 0;
-            }else{
-                Toast.makeText(MainActivity.this, "El valor no puede ser 0" , Toast.LENGTH_LONG).show();
-            }
-        }catch (Exception jl){
-            Toast.makeText(MainActivity.this, "Error: "+ jl.getMessage() , Toast.LENGTH_LONG).show();
-        }
-    }
-
     private void BindingComponents(){
         txtEditValues = findViewById(R.id.editTextNumberDecimal);
         txtViewHistory = findViewById(R.id.textViewHistory);
@@ -273,5 +62,315 @@ public class MainActivity extends AppCompatActivity {
         btnErase = findViewById(R.id.btnErase);
         btnEqual = findViewById(R.id.btnEqual);
         btnDelete = findViewById(R.id.btnDelete);
+    }
+    private void Listeners(){
+        btn0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(0);
+                }catch ( Exception f){
+                    Toast.makeText(MainActivity.this, f.getMessage().toString(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(1);
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(2);
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(3);
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(4);
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(5);
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(6);
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(7);
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(8);
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btn9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetValue(9);
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error:" + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tempNumber = 0;
+                txtEditValues.setText(String.valueOf(0));
+                txtViewHistory.setText(String.valueOf(0));
+                listNumbers.clear();
+            }
+        });
+        btnErase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    String value = String.valueOf(tempNumber);
+                    if(value.length()!=0){
+                        value = value.substring(0,value.length()-1);
+                    }else{
+                        value= String.valueOf(0);
+                    }
+                    tempNumber = Integer.parseInt(value.toString());
+                    txtEditValues.setText( String.valueOf(tempNumber));
+                }catch (Exception f){
+                    tempNumber = 0;
+                    txtEditValues.setText( String.valueOf(0));
+                }
+            }
+        });
+        btnSum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetOperation("+");
+                }catch (Exception ErrorM){
+                    Toast.makeText(MainActivity.this, "Error: " + ErrorM.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btnRes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetOperation("-");
+                }catch (Exception ErrorM){
+                    Toast.makeText(MainActivity.this, "Error: " + ErrorM.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btnMult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetOperation("*");
+                }catch (Exception ErrorM){
+                    Toast.makeText(MainActivity.this, "Error: " + ErrorM.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btnDiv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    SetOperation("/");
+                }catch (Exception f){
+                    Toast.makeText(MainActivity.this, "Error: " + f.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btnEqual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                float value = Float.parseFloat( txtEditValues.getText().toString());
+                if(listOperations.size() == listNumbers.size()-1){
+                    float Result = SolvingOperations();
+                    txtEditValues.setText(String.valueOf(Result));
+                }else if( (listOperations.size() != listNumbers.size()-1) && (value!=0) ){
+                    listNumbers.add(value);
+                    txtViewHistory.setText(txtViewHistory.getText()+ String.valueOf(value)); ;
+                    float Result = SolvingOperations();
+                    txtEditValues.setText(String.valueOf(Result));
+                }else{
+                    Toast.makeText(MainActivity.this, "ingrese un digito" , Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        tempNumber = 0;
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        BindingComponents();
+        Listeners();
+
+    }
+    private void SetValue(int number){
+
+        String valueTmp = String.valueOf(tempNumber) + number ;
+        tempNumber = Integer.parseInt(valueTmp.toString());
+        txtEditValues.setText( String.valueOf(tempNumber));
+    }
+    private void SetOperation(String sign){
+        try{
+            if(tempNumber!=0){
+                listNumbers.add(Float.parseFloat(String.valueOf(tempNumber)));
+                String text = "";
+                for ( int i=0; i< listNumbers.size(); i++){
+                    if(i== 0){
+                        text =  listNumbers.get(i).toString() + sign;
+                        listOperations.add(sign);
+                    }else{
+                        text = txtViewHistory.getText() +  listNumbers.get(i).toString() + sign;
+                        listOperations.add(sign);
+                    }
+                }
+                txtViewHistory.setText(text);
+                txtEditValues.setText("");
+                tempNumber = 0;
+            }else{
+                Toast.makeText(MainActivity.this, "El valor no puede ser 0" , Toast.LENGTH_LONG).show();
+            }
+        }catch (Exception jl){
+            Toast.makeText(MainActivity.this, "Error: "+ jl.getMessage() , Toast.LENGTH_LONG).show();
+        }
+    }
+    private float SolvingOperations(){
+        try{
+            float NumberA= 0;
+            float NumberB= 0;
+            float TemporalResult = 0;
+            int Counter = 0;
+            do{
+                if(listOperations.size()>0){
+                    if( listOperations.get(Counter).equals("*") || listOperations.get(Counter).equals("/")){
+                        if(Counter == 0){
+                            // Obtener datos
+                            NumberA = listNumbers.get(0);
+                            NumberB = listNumbers.get(1);
+                            // Obtener Resultado
+                            TemporalResult = Result(NumberA,NumberB,listOperations.get(Counter));
+                            // Actualizar listas
+                            ReplaceListArray(0,0,1,TemporalResult);
+                            Counter++;
+                        }else{
+                            // Obtener datos
+                            NumberA = listNumbers.get(Counter);
+                            NumberB = listNumbers.get(Counter+1);
+                            // Obtener Resultado
+                            TemporalResult = Result(NumberA,NumberB,listOperations.get(Counter));
+                            // Actualizar listas
+                            ReplaceListArray(Counter,Counter,Counter+1,TemporalResult);
+                            Counter = 0;
+                        }
+                    }else if(listOperations.get(Counter).equals("-") || listOperations.get(Counter).equals("+")){
+                        if(Counter == 0){
+                            // Obtener datos
+                            NumberA = listNumbers.get(0);
+                            NumberB = listNumbers.get(1);
+                            // Obtener Resultado
+                            TemporalResult = Result(NumberA,NumberB,listOperations.get(Counter));
+                            // Actualizar listas
+                            ReplaceListArray(0,0,1,TemporalResult);
+                            Counter++;
+                        }else{
+                            // Obtener datos
+                            NumberA = listNumbers.get(Counter);
+                            NumberB = listNumbers.get(Counter+1);
+                            // Obtener Resultado
+                            TemporalResult = Result(NumberA,NumberB,listOperations.get(Counter));
+                            // Actualizar listas
+                            ReplaceListArray(Counter,Counter,Counter+1,TemporalResult);
+                            Counter = 0;
+                        }
+                    }
+                }else{
+                    /// Lista de operaciones vacia
+                    return  listNumbers.get(0);
+                }
+            }while (true);
+        }catch (Exception f){
+            return 0;
+        }
+    }
+    private void ReplaceListArray( int OperationPosition, int NumberAPosition, int NumberBPosition, float ValueToSet ){
+        // Operations
+        if(listOperations.size()>1){
+            listOperations.remove(OperationPosition);
+        }else{
+            listOperations =new ArrayList<String>();
+        }
+        listNumbers.set(NumberAPosition,ValueToSet);
+        listNumbers.remove(NumberBPosition);
+    }
+
+    private float Result(float NumberA,float NumberB,String Operation){
+        switch (Operation){
+            case "+":
+                return NumberA + NumberB;
+            case "-":
+                return NumberA - NumberB;
+            case "*":
+                return NumberA * NumberB;
+            case "/":
+                return NumberA / NumberB;
+            default:
+                return 0;
+        }
     }
 }
