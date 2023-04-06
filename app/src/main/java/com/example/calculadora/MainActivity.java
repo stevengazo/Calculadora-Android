@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 txtEditValues.setText(String.valueOf(0));
                 txtViewHistory.setText(String.valueOf(0));
                 listNumbers.clear();
+                listOperations.clear();
             }
         });
         btnErase.setOnClickListener(new View.OnClickListener() {
@@ -241,8 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     txtEditValues.setText(String.valueOf(Result));
                 }else if( (listOperations.size() != listNumbers.size()-1) && (value!=0) ){
                     listNumbers.add(value);
-                    txtViewHistory.setText(txtViewHistory.getText()+ String.valueOf(value)); ;
-                    float Result = SolvingOperations();
+                    txtViewHistory.setText(txtViewHistory.getText()+ String.valueOf(value)); ;float Result = SolvingOperations();
                     txtEditValues.setText(String.valueOf(Result));
                 }else{
                     Toast.makeText(MainActivity.this, "ingrese un digito" , Toast.LENGTH_LONG).show();
@@ -270,14 +270,13 @@ public class MainActivity extends AppCompatActivity {
         try{
             if(tempNumber!=0){
                 listNumbers.add(Float.parseFloat(String.valueOf(tempNumber)));
+                listOperations.add(sign);
                 String text = "";
                 for ( int i=0; i< listNumbers.size(); i++){
                     if(i== 0){
                         text =  listNumbers.get(i).toString() + sign;
-                        listOperations.add(sign);
                     }else{
                         text = txtViewHistory.getText() +  listNumbers.get(i).toString() + sign;
-                        listOperations.add(sign);
                     }
                 }
                 txtViewHistory.setText(text);
@@ -297,80 +296,77 @@ public class MainActivity extends AppCompatActivity {
             float TemporalResult = 0;
             int Counter = 0;
             do{
-                if(listOperations.size()>0){
-                    if( listOperations.get(Counter).equals("*") || listOperations.get(Counter).equals("/")){
-                        if(Counter == 0){
-                            // Obtener datos
-                            NumberA = listNumbers.get(0);
-                            NumberB = listNumbers.get(1);
-                            // Obtener Resultado
-                            TemporalResult = Result(NumberA,NumberB,listOperations.get(Counter));
-                            // Actualizar listas
-                            ReplaceListArray(0,0,1,TemporalResult);
-                            Counter++;
-                        }else{
-                            // Obtener datos
-                            NumberA = listNumbers.get(Counter);
-                            NumberB = listNumbers.get(Counter+1);
-                            // Obtener Resultado
-                            TemporalResult = Result(NumberA,NumberB,listOperations.get(Counter));
-                            // Actualizar listas
-                            ReplaceListArray(Counter,Counter,Counter+1,TemporalResult);
-                            Counter = 0;
+                if(listOperations.size()!=0){
+                    String operation=listOperations.get(Counter);
+                    if(listOperations.contains("*") || listOperations.contains("/")){
+                        if(operation.equals("*") ||operation.equals("/") ){
+                            if(Counter == 0){
+                                NumberA = listNumbers.get(0);
+                                NumberB = listNumbers.get(1);
+                                TemporalResult = Result(NumberA,NumberB,operation);
+                                ReplaceListArray(0,0,1,TemporalResult);
+                            }else{
+                                NumberA = listNumbers.get(Counter);
+                                NumberB = listNumbers.get(Counter+1);
+                                TemporalResult = Result(NumberA,NumberB,operation);
+                                ReplaceListArray(Counter,Counter,Counter+1,TemporalResult);
+                            }
                         }
-                    }else if(listOperations.get(Counter).equals("-") || listOperations.get(Counter).equals("+")){
+                    }else if( operation.equals("+") ||operation.equals("-") ){
                         if(Counter == 0){
-                            // Obtener datos
                             NumberA = listNumbers.get(0);
                             NumberB = listNumbers.get(1);
-                            // Obtener Resultado
-                            TemporalResult = Result(NumberA,NumberB,listOperations.get(Counter));
-                            // Actualizar listas
+                            TemporalResult = Result(NumberA,NumberB,operation);
                             ReplaceListArray(0,0,1,TemporalResult);
-                            Counter++;
                         }else{
-                            // Obtener datos
                             NumberA = listNumbers.get(Counter);
                             NumberB = listNumbers.get(Counter+1);
-                            // Obtener Resultado
-                            TemporalResult = Result(NumberA,NumberB,listOperations.get(Counter));
-                            // Actualizar listas
+                            TemporalResult = Result(NumberA,NumberB,operation);
                             ReplaceListArray(Counter,Counter,Counter+1,TemporalResult);
-                            Counter = 0;
                         }
                     }
                 }else{
-                    /// Lista de operaciones vacia
-                    return  listNumbers.get(0);
+                    float ValueToReturn = listNumbers.get(0);
+                    return ValueToReturn;
                 }
             }while (true);
         }catch (Exception f){
+            Toast.makeText(MainActivity.this, "SolvingOperations Error: "+ f.getMessage() , Toast.LENGTH_LONG).show();
             return 0;
         }
     }
     private void ReplaceListArray( int OperationPosition, int NumberAPosition, int NumberBPosition, float ValueToSet ){
-        // Operations
-        if(listOperations.size()>1){
-            listOperations.remove(OperationPosition);
-        }else{
-            listOperations =new ArrayList<String>();
-        }
-        listNumbers.set(NumberAPosition,ValueToSet);
-        listNumbers.remove(NumberBPosition);
+       try{
+           // Operations
+           if(listOperations.size()>1){
+               listOperations.remove(OperationPosition);
+           }else{
+               listOperations.clear();
+           }
+           listNumbers.set(NumberAPosition,ValueToSet);
+           listNumbers.remove(NumberBPosition);
+       }catch (Exception f){
+           Toast.makeText(MainActivity.this, "ReplaceListArray Error: "+ f.getMessage() , Toast.LENGTH_LONG).show();
+       }
     }
 
     private float Result(float NumberA,float NumberB,String Operation){
-        switch (Operation){
-            case "+":
-                return NumberA + NumberB;
-            case "-":
-                return NumberA - NumberB;
-            case "*":
-                return NumberA * NumberB;
-            case "/":
-                return NumberA / NumberB;
-            default:
-                return 0;
+        try{
+            switch (Operation){
+                case "+":
+                    return NumberA + NumberB;
+                case "-":
+                    return NumberA - NumberB;
+                case "*":
+                    return NumberA * NumberB;
+                case "/":
+                    return NumberA / NumberB;
+                default:
+                    return 0;
+            }
+        }catch (Exception V){
+            Toast.makeText(MainActivity.this, "Result Error: "+ V.getMessage() , Toast.LENGTH_LONG).show();
+            return 0;
         }
     }
 }
